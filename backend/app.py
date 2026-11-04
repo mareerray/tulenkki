@@ -1,13 +1,16 @@
 import os
+from datetime import date
 
 import psycopg
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, request
+from flask_cors import CORS
 from psycopg.rows import dict_row
 
 load_dotenv() # Load environment variables from .env file
 
 app = Flask(__name__)
+CORS(app) # Enable Cross-Origin Resource Sharing (CORS) for all routes
 
 
 @app.get("/health")
