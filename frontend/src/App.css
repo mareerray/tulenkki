@@ -339,3 +339,24 @@ main {
     transform: none;
   }
 }
+
+/* Walk view switcher */
+.walk-view-switch {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.walk-view-switch button {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .walk-view-switch {
+    gap: 0.2rem;
+  }
+
+  .walk-view-switch button {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+  }
+}

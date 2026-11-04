@@ -1,0 +1,196 @@
+/* Chart container */
+.weekly-chart {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+
+    border: 1px solid rgba(166, 190, 222, 0.16);
+    border-radius: 20px;
+
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+/* Title and shortcut */
+.weekly-chart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.weekly-chart-header h3 {
+    margin: 0 0 0.35rem;
+    color: var(--color-primary);
+    font-size: 1.15rem;
+}
+
+.weekly-chart-header p {
+    margin: 0;
+    color: rgba(238, 243, 248, 0.75);
+    font-size: 0.85rem;
+}
+
+.weekly-chart .weekly-chart-today {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+
+    border: 1px solid rgba(166, 190, 222, 0.3);
+    border-radius: 999px;
+
+    background: transparent;
+    color: var(--color-primary);
+
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Week navigation */
+.weekly-chart-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.weekly-chart-navigation p {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.weekly-chart-navigation button {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--color-text);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.weekly-chart button:hover:not(:disabled) {
+    background-color: rgba(166, 190, 222, 0.12);
+    transform: none;
+    filter: none;
+}
+
+.weekly-chart button:focus-visible {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
+/* Summary and scale */
+.weekly-chart-summary {
+    margin: 1rem 0 0.5rem;
+    color: var(--color-secondary);
+    font-weight: 600;
+}
+
+.weekly-chart-scale {
+    margin: 0 0 1rem;
+    color: rgba(238, 243, 248, 0.75);
+    font-size: 0.8rem;
+}
+
+/* Seven equally sized columns */
+.weekly-chart-bars {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.6rem;
+}
+
+.weekly-chart-column {
+    display: grid;
+    grid-template-rows: auto 180px auto;
+    gap: 0.5rem;
+    min-width: 0;
+    text-align: center;
+}
+
+.weekly-chart-value {
+    color: var(--color-text);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Each track represents the same number of minutes. */
+.weekly-chart-track {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+
+    border-bottom: 1px solid rgba(166, 190, 222, 0.3);
+
+    background: repeating-linear-gradient(to top,
+            rgba(166, 190, 222, 0.1) 0,
+            rgba(166, 190, 222, 0.1) 1px,
+            transparent 1px,
+            transparent 25%);
+}
+
+.weekly-chart-bar {
+    width: min(100%, 42px);
+    border-radius: 8px 8px 0 0;
+    background-color: var(--color-primary);
+}
+
+.weekly-chart-column:nth-child(even) .weekly-chart-bar {
+    background-color: var(--color-secondary);
+}
+
+.weekly-chart-day {
+    color: rgba(238, 243, 248, 0.85);
+    font-size: 0.8rem;
+}
+
+/* Text available to screen readers without changing the layout. */
+.chart-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Phone layout */
+@media (max-width: 480px) {
+    .weekly-chart {
+        padding: 1.15rem 0.85rem;
+    }
+
+    .weekly-chart-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .weekly-chart-bars {
+        gap: 0.3rem;
+    }
+
+    .weekly-chart-column {
+        grid-template-rows: auto 150px auto;
+    }
+
+    .weekly-chart-navigation p {
+        font-size: 0.8rem;
+    }
+
+    .weekly-chart-day {
+        font-size: 0.7rem;
+    }
+}

@@ -3,6 +3,7 @@ import "./App.css";
 import AddWalkForm from "./AddWalkForm";
 import WalksList from "./WalksList";
 import WalksCalendar from "./WalksCalendar";
+import WalksAnalytics from "./WalksAnalytics";
 
 function WalkingLogo() {
   return (
@@ -70,12 +71,28 @@ export default function App() {
           >
             Calendar
           </button>
+
+          <button
+            type="button"
+            aria-pressed={view === "analytics"}
+            onClick={() => setView("analytics")}
+          >
+            Analytics
+          </button>
         </div>
 
-        {view === "list" ? (
+        {/* View content */}
+        {/* && means “render this component only when its condition is true.” */}
+        {view === "list" && (
           <WalksList key={`list-${refreshKey}`} />
-        ) : (
+        )}
+
+        {view === "calendar" && (
           <WalksCalendar key={`calendar-${refreshKey}`} />
+        )}
+
+        {view === "analytics" && (
+          <WalksAnalytics key={`analytics-${refreshKey}`} />
         )}
       </section>
 
@@ -90,7 +107,7 @@ export default function App() {
       >
         <span aria-hidden="true">+</span>
       </button>
-      
+
       {/* Add Walk Dialog */}
       <dialog
         id="add-walk-dialog"

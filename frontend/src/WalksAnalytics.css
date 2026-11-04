@@ -1,0 +1,90 @@
+/* Analytics introduction */
+.analytics-heading {
+    margin-bottom: 1.25rem;
+}
+
+.analytics-heading h3 {
+    margin: 0 0 0.35rem;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.analytics-heading p {
+    margin: 0;
+    color: rgba(238, 243, 248, 0.75);
+    font-size: 0.9rem;
+}
+
+/* Statistics layout */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+
+/* Individual statistic */
+.analytics-card {
+    min-width: 0;
+    padding: 1.5rem;
+
+    border: 1px solid rgba(166, 190, 222, 0.16);
+    border-radius: 20px;
+
+    background-color: var(--color-surface);
+}
+
+.analytics-card dt {
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.analytics-card dd {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.analytics-card:nth-child(even) dd {
+    color: var(--color-secondary);
+}
+
+.analytics-card p {
+    margin: 0.75rem 0 0;
+    color: rgba(238, 243, 248, 0.75);
+    font-size: 0.85rem;
+}
+
+/* No walks yet */
+.analytics-empty {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    background-color: var(--color-surface);
+    text-align: center;
+}
+
+.analytics-empty h3 {
+    margin: 0 0 0.75rem;
+    color: var(--color-primary);
+}
+
+.analytics-empty p {
+    margin: 0;
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .analytics-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .analytics-card {
+        padding: 1.25rem;
+    }
+}
