@@ -1,0 +1,188 @@
+/* List/calendar view switch */
+.walk-view-switch {
+    display: flex;
+    gap: 0.4rem;
+    width: fit-content;
+    margin-bottom: 1.5rem;
+    padding: 0.3rem;
+
+    border-radius: 999px;
+    background-color: var(--color-surface);
+}
+
+.walk-view-switch button {
+    min-height: 44px;
+    padding: 0.6rem 1.1rem;
+    border: none;
+    border-radius: 999px;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.walk-view-switch button[aria-pressed="true"] {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+/* Calendar container */
+.walk-calendar {
+    padding: 1.25rem;
+    border-radius: 20px;
+    background-color: var(--color-surface);
+}
+
+/* Month controls */
+.calendar-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.calendar-navigation h3 {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 1.15rem;
+    text-align: center;
+}
+
+.calendar-navigation button {
+    display: grid;
+    place-items: center;
+
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--color-text);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Seven equal columns */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.35rem;
+}
+
+.calendar-weekday {
+    padding-bottom: 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Individual dates */
+.calendar-grid .calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 0.4rem 0;
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.calendar-day[aria-current="date"] {
+    border-color: var(--color-primary);
+}
+
+.calendar-grid .calendar-day[aria-pressed="true"] {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    font-weight: 700;
+}
+
+/* Walk indicator */
+.calendar-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-secondary);
+}
+
+.calendar-day[aria-pressed="true"] .calendar-dot {
+    background-color: var(--color-background);
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    font-size: 0.85rem;
+}
+
+/* Selected day's walks */
+.calendar-details {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(166, 190, 222, 0.2);
+}
+
+.calendar-details h3 {
+    margin: 0 0 1rem;
+    color: var(--color-primary);
+    font-size: 1rem;
+}
+
+.calendar-details>p {
+    margin: 0;
+}
+
+/* Focus and hover */
+.walk-view-switch button:focus-visible,
+.calendar-navigation button:focus-visible,
+.calendar-day:focus-visible {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+.calendar-navigation button:hover:not(:disabled),
+.calendar-day:hover:not(:disabled) {
+    background-color: rgba(166, 190, 222, 0.15);
+    transform: none;
+    filter: none;
+}
+
+.calendar-grid .calendar-day[aria-pressed="true"]:hover {
+    background-color: var(--color-primary);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .walk-calendar {
+        padding: 1rem 0.75rem;
+    }
+
+    .calendar-grid {
+        gap: 0.2rem;
+    }
+
+    .calendar-weekday {
+        font-size: 0.7rem;
+    }
+}

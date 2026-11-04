@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-const API_URL = "http://127.0.0.1:5001";
-
+// const API_URL = "http://127.0.0.1:5001";
+const API_URL = "http://192.168.0.28:5001"; // testing on the phone 
 export default function WalksList() {
     const [walks, setWalks] = useState([]);
     const [error, setError] = useState(null);
@@ -33,8 +33,6 @@ export default function WalksList() {
 
     return (
         <section>
-            <h2>My walks</h2>
-
             {walks.length === 0 ? (
                 <p>No walks saved yet.</p>
             ) : (

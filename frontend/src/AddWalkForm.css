@@ -1,0 +1,115 @@
+/* Form layout */
+.add-walk-form {
+    display: grid;
+    gap: 1.1rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Labels */
+.add-walk-form label {
+    display: grid;
+    gap: 0.4rem;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+/* Fields */
+.add-walk-form input,
+.add-walk-form textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem 0.9rem;
+
+    border: 1px solid rgba(166, 190, 222, 0.25);
+    border-radius: 12px;
+
+    background-color: rgba(31, 39, 51, 0.85);
+    color: var(--color-text);
+    color-scheme: dark;
+
+    font: inherit;
+}
+
+.add-walk-form input::placeholder,
+.add-walk-form textarea::placeholder {
+    color: rgba(238, 243, 248, 0.55);
+}
+
+.add-walk-form input:focus,
+.add-walk-form textarea:focus {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+    border-color: var(--color-secondary);
+}
+
+.add-walk-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Save button */
+.add-walk-form button[type="submit"] {
+    justify-self: start;
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color: var(--color-secondary);
+    color: var(--color-background);
+
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+.add-walk-form button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+}
+
+.add-walk-form button[type="submit"]:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+.add-walk-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Success or error message */
+.add-walk-form .form-status {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-weight: 600;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+    .add-walk-form button[type="submit"] {
+        width: 100%;
+        justify-self: stretch;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .add-walk-form button[type="submit"] {
+        transition: none;
+    }
+
+    .add-walk-form button[type="submit"]:hover:not(:disabled) {
+        transform: none;
+    }
+}
