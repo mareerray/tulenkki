@@ -42,7 +42,7 @@ function getCurrentCycle() {
     );
 }
 
-export default function WalksList() {
+export default function WalksList({onEdit}) {
     const [walks, setWalks] = useState([]);
     const [cycleIndex, setCycleIndex] = useState(getCurrentCycle);
     const [loading, setLoading] = useState(true);
@@ -78,6 +78,32 @@ export default function WalksList() {
 
         return () => controller.abort();
     }, []);
+
+    async function handleDelete(walkId) {
+        const confirmed = window.confirm(
+            "Delete this walk? This cannot be undone."
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const response = await fetch(`/walks/${walkId}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error("Could not delete walk");
+            }
+
+            setWalks((currentWalks) =>
+                currentWalks.filter((walk) => walk.id !== walkId)
+            );
+        } catch (error) {
+            console.error(error);
+            setError("Could not delete walk. Please try again.");
+        }
+    }
+    
 
     const todayNumber = getTodayNumber();
     const currentCycle = getCurrentCycle();
@@ -179,6 +205,23 @@ export default function WalksList() {
                                             {walk.notes && (
                                                 <p className="cycle-walk-notes">{walk.notes}</p>
                                             )}
+                                            <div className="walk-actions">
+                                                <button
+                                                    type="button"
+                                                    className="walk-action-button walk-action-edit"
+                                                    onClick={() => onEdit(walk)}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="walk-action-button walk-action-delete"
+                                                    onClick={() => handleDelete(walk.id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

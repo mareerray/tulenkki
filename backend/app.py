@@ -1,9 +1,10 @@
 import os
+import math
 from datetime import date
 
 import psycopg
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from psycopg.rows import dict_row
 
@@ -49,43 +50,91 @@ def get_walks():
 
     return {"walks": walks}
 
-from datetime import date
-from flask import request
+# -------------- Data Validation Helper Before POST and PUT ---------------
+def validate_walk(data, require_all_fields=False):
+    if not isinstance(data, dict):
+        return None, "Request body must be a JSON object"
 
-# --------------- POST /walks ---------------
-@app.post("/walks")
-def create_walk():
-    data = request.get_json(silent=True) or {}
+    required_fields = (
+        ("walk_date", "minutes", "distance_km", "notes")
+        if require_all_fields
+        else ("walk_date", "minutes")
+    )
+
+    missing_fields = [
+        field for field in required_fields if field not in data
+    ]
+
+    if missing_fields:
+        return None, f"Missing fields: {', '.join(missing_fields)}"
 
     walk_date = data.get("walk_date")
     minutes = data.get("minutes")
     distance_km = data.get("distance_km")
     notes = data.get("notes")
 
-    if not walk_date or minutes is None:
-        return {"error": "walk_date and minutes are required"}, 400
+    # Validate the date and enforce YYYY-MM-DD.
+    if not isinstance(walk_date, str):
+        return None, "walk_date must be a string in YYYY-MM-DD format"
 
     try:
-        date.fromisoformat(walk_date)
+        parsed_date = date.fromisoformat(walk_date)
     except ValueError:
-        return {"error": "walk_date must use YYYY-MM-DD format"}, 400
+        return None, "walk_date must be a valid date in YYYY-MM-DD format"
+
+    if parsed_date.isoformat() != walk_date:
+        return None, "walk_date must use YYYY-MM-DD format"
+
+    # Accept integers or integer strings, but not floats or booleans.
+    if type(minutes) not in (int, str):
+        return None, "minutes must be a whole number"
 
     try:
         minutes = int(minutes)
-    except (TypeError, ValueError):
-        return {"error": "minutes must be a whole number"}, 400
+    except ValueError:
+        return None, "minutes must be a whole number"
 
     if minutes <= 0:
-        return {"error": "minutes must be greater than 0"}, 400
+        return None, "minutes must be greater than 0"
 
+    # Distance is optional, but must be a finite, non-negative number.
     if distance_km is not None:
+        if type(distance_km) not in (int, float, str):
+            return None, "distance_km must be a number or null"
+
         try:
             distance_km = float(distance_km)
-        except (TypeError, ValueError):
-            return {"error": "distance_km must be a number"}, 400
+        except (ValueError, OverflowError):
+            return None, "distance_km must be a number"
+
+        if not math.isfinite(distance_km):
+            return None, "distance_km must be a finite number"
 
         if distance_km < 0:
-            return {"error": "distance_km cannot be negative"}, 400
+            return None, "distance_km cannot be negative"
+
+    if notes is not None and not isinstance(notes, str):
+        return None, "notes must be text or null"
+
+    return {
+        "walk_date": parsed_date.isoformat(),
+        "minutes": minutes,
+        "distance_km": distance_km,
+        "notes": notes,
+    }, None
+
+# --------------- POST /walks ---------------
+@app.post("/walks")
+def create_walk():
+    data, error = validate_walk(request.get_json(silent=True))
+
+    if error is not None:
+        return {"error": error}, 400
+
+    walk_date = data["walk_date"]
+    minutes = data["minutes"]
+    distance_km = data["distance_km"]
+    notes = data["notes"]
 
     with psycopg.connect(
         os.environ["DATABASE_URL"],
@@ -101,7 +150,6 @@ def create_walk():
                 (walk_date, minutes, distance_km, notes),
             )
             row = cur.fetchone()
-        conn.commit()
 
     return {
         "walk": {
@@ -116,3 +164,75 @@ def create_walk():
             "notes": row["notes"],
         }
     }, 201
+
+# -------------- PUT /walks/<id> ---------------
+@app.put("/walks/<int:walk_id>")
+def update_walk(walk_id):
+    data, error = validate_walk(
+        request.get_json(silent=True),
+        require_all_fields=True,
+    )
+
+    if error is not None:
+        return {"error": error}, 400
+
+    walk_date = data["walk_date"]
+    minutes = data["minutes"]
+    distance_km = data["distance_km"]
+    notes = data["notes"]
+
+    with psycopg.connect(
+        os.environ["DATABASE_URL"],
+        row_factory=dict_row,
+    ) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE walks
+                SET walk_date = %s, minutes = %s, distance_km = %s, notes = %s
+                WHERE id = %s
+                RETURNING id, walk_date, minutes, distance_km, notes;
+                """,
+                (walk_date, minutes, distance_km, notes, walk_id),
+            )
+            row = cur.fetchone()
+
+    if row is None:
+        return jsonify({"error": "Walk not found"}), 404
+
+    return {
+        "walk": {
+            "id": row["id"],
+            "walk_date": row["walk_date"].isoformat(),
+            "minutes": row["minutes"],
+            "distance_km": (
+                float(row["distance_km"])
+                if row["distance_km"] is not None
+                else None
+            ),
+            "notes": row["notes"],
+        }
+    }, 200
+
+# -------------- DELETE /walks/<id> ---------------
+@app.delete("/walks/<int:walk_id>")
+def delete_walk(walk_id):
+    with psycopg.connect(
+        os.environ["DATABASE_URL"],
+        row_factory=dict_row,
+    ) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                DELETE FROM walks
+                WHERE id = %s
+                RETURNING id;
+                """,
+                (walk_id,),
+            )
+            deleted = cur.fetchone()
+
+    if deleted is None:
+        return jsonify({"error": "Walk not found"}), 404
+
+    return jsonify({"message": "Walk deleted"}), 200

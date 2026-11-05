@@ -28,9 +28,20 @@ export default function App() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [notice, setNotice] = useState("");
   const [view, setView] = useState("list"); // "list" or "calendar"
+  const [editingWalk, setEditingWalk] = useState(null);
+  const [formKey, setFormKey] = useState(0); // To reset the form when editing a walk
 
   function openAddWalk() {
     setNotice("");
+    setEditingWalk(null); // Clear any walk being edited
+    setFormKey((current) => current + 1); // Reset the form
+    dialogRef.current.showModal();
+  }
+  
+  function handleEdit(walk) {
+    setNotice("");
+    setEditingWalk(walk);
+    setFormKey((current) => current + 1); // Reset the form
     dialogRef.current.showModal();
   }
 
@@ -40,9 +51,10 @@ export default function App() {
 
   function handleWalkAdded() {
     setRefreshKey((current) => current + 1);
-    setNotice("Walk saved!");
+    setNotice(editingWalk ? "Walk updated!" : "Walk saved!");
     closeAddWalk();
   }
+
 
   return (
     <>
@@ -86,7 +98,8 @@ export default function App() {
         {/* View content */}
         {/* && means “render this component only when its condition is true.” */}
         {view === "list" && (
-          <WalksList key={`list-${refreshKey}`} />
+          <WalksList key={`list-${refreshKey}`}
+          onEdit={handleEdit} />
         )}
 
         {view === "calendar" && (
@@ -118,19 +131,24 @@ export default function App() {
         aria-labelledby="add-walk-heading"
       >
         <div className="dialog-header">
-          <h2 id="add-walk-heading">Add a walk</h2>
+          <h2 id="add-walk-heading">
+            {editingWalk ? "Edit a walk" : "Add a walk"}
+          </h2>
 
           <button
             className="dialog-close"
             type="button"
             onClick={closeAddWalk}
-            aria-label="Close add walk form"
+            aria-label="Close walk form"
           >
             <span aria-hidden="true">×</span>
           </button>
         </div>
 
-        <AddWalkForm onWalkAdded={handleWalkAdded} />
+        <AddWalkForm 
+          key={formKey}
+          walk={editingWalk}
+          onWalkAdded={handleWalkAdded} />
       </dialog>
     </main>
     <Footer linkedinUrl="https://www.linkedin.com/in/mayuree-reunsati" />

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./AddWalkForm.css";
 
-export default function AddWalkForm({ onWalkAdded }) {
-    const [walkDate, setWalkDate] = useState("");
-    const [minutes, setMinutes] = useState("");
-    const [distanceKm, setDistanceKm] = useState("");
-    const [notes, setNotes] = useState("");
+export default function AddWalkForm({ onWalkAdded, walk = null }) {
+    const isEditing = walk !== null;
+    const [walkDate, setWalkDate] = useState(walk?.walk_date ?? "");
+    const [minutes, setMinutes] = useState(walk ? String(walk.minutes) : "");
+    const [distanceKm, setDistanceKm] = useState(walk?.distance_km == null ? "" : String(walk.distance_km));
+    const [notes, setNotes] = useState(walk?.notes ?? "");
     const [status, setStatus] = useState(null);
     const [saving, setSaving] = useState(false);
 
@@ -15,8 +16,10 @@ export default function AddWalkForm({ onWalkAdded }) {
         setStatus(null);
 
         try {
-            const response = await fetch("/walks", {
-                method: "POST",
+            const url = isEditing ? `/walks/${walk.id}` : "/walks";
+
+            const response = await fetch(url, {
+                method: isEditing ? "PUT" : "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -91,7 +94,7 @@ export default function AddWalkForm({ onWalkAdded }) {
             </label>
 
             <button type="submit" disabled={saving}>
-                {saving ? "Saving…" : "Save walk"}
+                {saving ? "Saving…" : isEditing ? "Save changes" : "Save walk"}
             </button>
 
             {status && (
