@@ -53,7 +53,7 @@ export default function WalksList({onEdit}) {
 
         async function loadWalks() {
             try {
-                const response = await fetch("walks", {
+                const response = await fetch("/walks", {
                     signal: controller.signal,
                 });
 
@@ -163,7 +163,7 @@ export default function WalksList({onEdit}) {
             </nav>
 
             <p className="cycle-summary">
-                {recordedWalkDays} of 6 scheduled walking days have a walk recorded.
+                {recordedWalkDays} of {WALK_DAYS} scheduled walking days have a walk recorded.
             </p>
 
             <ol className="cycle-days">
