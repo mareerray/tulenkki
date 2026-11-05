@@ -3,9 +3,6 @@ import { GiRunningShoe } from "react-icons/gi";
 import { FaMugHot } from "react-icons/fa";
 import "./WalksList.css";
 
-// const API_URL = "http://127.0.0.1:5001";
-const API_URL = "http://192.168.0.28:5001"; // testing on the phone 
-
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ROUTINE_START = Date.UTC(2026, 9, 16);
 const CYCLE_LENGTH = 8;
@@ -56,7 +53,7 @@ export default function WalksList() {
 
         async function loadWalks() {
             try {
-                const response = await fetch(`${API_URL}/walks`, {
+                const response = await fetch("walks", {
                     signal: controller.signal,
                 });
 

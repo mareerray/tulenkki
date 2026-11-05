@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import "./WalksCalendar.css";
 
-// Use the same API address as WalksList.jsx.
-// const API_URL = "http://127.0.0.1:5001";
-const API_URL = "http://192.168.0.28:5001"; // testing on the phone 
-
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function toDateKey(date) {
@@ -43,7 +39,7 @@ export default function WalksCalendar() {
 
         async function loadWalks() {
             try {
-                const response = await fetch(`${API_URL}/walks`, {
+                const response = await fetch("/walks", {
                     signal: controller.signal,
                 });
 

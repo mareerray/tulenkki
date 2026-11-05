@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import WeeklyWalkChart from "./WeeklyWalkChart";
 import "./WalksAnalytics.css";
 
-// Use the same API address as your other components.
-// For phone testing, use your computer's network IP.
-// const API_URL = "http://127.0.0.1:5001";
-const API_URL = "http://192.168.0.28:5001"; // testing on the phone 
-
 export default function WalksAnalytics() {
     const [walks, setWalks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +12,7 @@ export default function WalksAnalytics() {
 
         async function loadWalks() {
             try {
-                const response = await fetch(`${API_URL}/walks`, {
+                const response = await fetch("/walks", {
                     signal: controller.signal,
                 });
 

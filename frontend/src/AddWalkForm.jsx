@@ -1,9 +1,6 @@
 import { useState } from "react";
 import "./AddWalkForm.css";
 
-// const API_URL = "http://127.0.0.1:5001";
-const API_URL = "http://192.168.0.28:5001"; // testing on the phone 
-
 export default function AddWalkForm({ onWalkAdded }) {
     const [walkDate, setWalkDate] = useState("");
     const [minutes, setMinutes] = useState("");
@@ -18,7 +15,7 @@ export default function AddWalkForm({ onWalkAdded }) {
         setStatus(null);
 
         try {
-            const response = await fetch(`${API_URL}/walks`, {
+            const response = await fetch("/walks", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
