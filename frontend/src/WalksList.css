@@ -1,0 +1,219 @@
+/* Cycle navigation */
+.cycle-navigation {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cycle-title {
+    text-align: center;
+}
+
+.cycle-title h3 {
+    margin: 0 0 0.35rem;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.cycle-title p {
+    margin: 0;
+    color: rgba(238, 243, 248, 0.75);
+    font-size: 0.85rem;
+}
+
+.cycle-navigation button {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(166, 190, 222, 0.25);
+    border-radius: 999px;
+
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cycle-navigation button:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    transform: none;
+    filter: none;
+}
+
+.cycle-navigation button:focus-visible {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
+.cycle-navigation button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Cycle summary */
+.cycle-summary {
+    margin: 0 0 1.25rem;
+    color: rgba(238, 243, 248, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Compact day rows */
+.cycle-days {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cycle-days .cycle-day {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(166, 190, 222, 0.12);
+    border-left: 3px solid var(--color-secondary);
+    border-radius: 12px;
+
+    background-color: var(--color-surface);
+    overflow-wrap: anywhere;
+}
+
+.cycle-days .cycle-day-rest {
+    border-left-color: var(--color-primary);
+}
+
+.cycle-days .cycle-day[aria-current="date"] {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.cycle-days .cycle-day:hover {
+    transform: none;
+}
+
+/* Walk / rest icon */
+.cycle-day-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+
+    background-color: rgba(222, 170, 166, 0.1);
+    color: var(--color-secondary);
+}
+
+.cycle-day-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.cycle-day-rest .cycle-day-icon {
+    background-color: rgba(166, 190, 222, 0.1);
+    color: var(--color-primary);
+}
+
+/* Date and cycle-day number */
+.cycle-day-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.cycle-day-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.cycle-day-heading h4 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cycle-day-number {
+    flex-shrink: 0;
+    width: 3rem;
+    padding-top: 0.15rem;
+
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Saved walks */
+.cycle-walk-records {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.cycle-days .cycle-walk-record p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.cycle-days .cycle-walk-record strong {
+    color: var(--color-primary);
+}
+
+.cycle-walk-record+.cycle-walk-record {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(166, 190, 222, 0.12);
+}
+
+.cycle-days .cycle-walk-record .cycle-walk-notes {
+    margin-top: 0.15rem;
+    color: rgba(238, 243, 248, 0.7);
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+}
+
+/* Empty / upcoming / rest status */
+.cycle-days .cycle-day-status {
+    margin: 0.2rem 0 0;
+    color: rgba(238, 243, 248, 0.65);
+    font-size: 0.8rem;
+}
+
+/* Phone layout */
+@media (max-width: 480px) {
+    .cycle-navigation {
+        gap: 0.5rem;
+    }
+
+    .cycle-navigation button {
+        padding: 0.6rem 0.7rem;
+        font-size: 0.8rem;
+    }
+
+    .cycle-title p {
+        font-size: 0.75rem;
+    }
+
+    .cycle-days .cycle-day {
+        gap: 0.65rem;
+        padding: 0.7rem 0.8rem;
+    }
+
+    .cycle-day-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cycle-day-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" fill="none">
+<title>Tulenkki walking and nature wallpaper</title>
+<defs>
+  <g id="shoe" stroke="#a64b38" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 48L17 14Q28 30 43 18L53 35L83 46Q96 50 95 64H9Q3 59 8 48Z" fill="#e8c3ad"/>
+    <path d="M8 57H95V65Q52 72 9 65Z" fill="#b88365"/>
+    <path d="M38 28L50 32M43 35L56 39M48 42L62 46M17 39Q26 42 28 56"/>
+  </g>
+  <g id="sprig" stroke="#7f9477" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 95Q50 53 42 5"/>
+    <path d="M37 65Q3 62 8 39Q32 39 37 65Z" fill="#b8c5a5"/>
+    <path d="M42 43Q66 40 71 17Q48 17 42 43Z" fill="#b8c5a5"/>
+    <path d="M42 23Q23 16 29 0Q44 4 42 23Z" fill="#dce2cf"/>
+    <path d="M29 83Q59 84 65 62Q42 61 29 83Z" fill="#dce2cf"/>
+  </g>
+  <g id="mug" stroke="#b88365" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 28H58V58Q58 73 35 73Q12 73 12 58Z" fill="#e8c3ad"/>
+    <path d="M58 35H65Q83 35 77 51Q73 61 58 58M9 78H65M24 17Q17 11 24 3M42 17Q35 11 42 3"/>
+  </g>
+  <g id="tree" stroke="#7f9477" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 3L11 33H21L3 58H21L6 79H62L47 58H65L47 33H57Z" fill="#dce2cf"/>
+    <path d="M34 79V96"/>
+  </g>
+</defs>
+<use href="#shoe" transform="translate(105 110) rotate(-14 50 35)"/>
+<use href="#sprig" transform="translate(362 45) rotate(20 35 45)"/>
+<use href="#mug" transform="translate(656 130) rotate(10 40 40)"/>
+<use href="#tree" transform="translate(120 425) rotate(-7 34 45)"/>
+<use href="#shoe" transform="translate(555 480) rotate(17 50 35)"/>
+<use href="#sprig" transform="translate(732 667) rotate(-20 35 45)"/>
+<use href="#mug" transform="translate(300 735) rotate(-10 40 40)"/>
+<g stroke="#7f9477" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(360 300)">
+  <path d="M0 73L38 14L76 73M61 50L87 8L133 73" fill="#dce2cf"/>
+  <path d="M26 33L38 40L49 32M77 24L87 31L98 25"/>
+  <path d="M-7 80H140"/>
+</g>
+<g stroke="#b88365" stroke-width="2.5" stroke-linecap="round" transform="translate(85 725)">
+  <path d="M0 35Q28 3 57 35M-4 42H63M29 1V-7M4 10L-2 4M54 10L61 4"/>
+</g>
+<g stroke="#a64b38" stroke-width="2.5" stroke-linecap="round" transform="translate(440 640) rotate(-15)">
+  <ellipse cx="0" cy="0" rx="7" ry="14" fill="#e8c3ad"/>
+  <ellipse cx="24" cy="27" rx="7" ry="14" fill="#e8c3ad"/>
+</g>
+<g stroke="#b88365" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 9">
+  <path d="M220 250C276 211 325 253 294 302S217 366 267 408"/>
+  <path d="M725 342C805 303 833 364 786 416S739 491 796 531"/>
+  <path d="M492 785C550 736 635 788 604 838"/>
+</g>
+<g stroke="#7f9477" stroke-width="2.5" stroke-linecap="round">
+  <path d="M43 294Q57 277 70 294M70 294Q84 277 98 294M555 69Q566 55 579 69M579 69Q591 55 604 69"/>
+  <path d="M296 552Q307 536 318 552T340 552M657 600Q666 586 677 600T698 600"/>
+</g>
+<g fill="#b88365"><circle cx="246" cy="90" r="3"/><circle cx="540" cy="221" r="3"/><circle cx="67" cy="604" r="3"/><circle cx="848" cy="811" r="3"/></g>
+</svg>

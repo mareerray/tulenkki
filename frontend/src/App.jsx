@@ -4,6 +4,7 @@ import AddWalkForm from "./AddWalkForm";
 import WalksList from "./WalksList";
 import WalksCalendar from "./WalksCalendar";
 import WalksAnalytics from "./WalksAnalytics";
+import Footer from "./Footer";
 
 function WalkingLogo() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
   }
 
   return (
+    <>
     <main>
       <WalkingLogo />
 
@@ -131,5 +133,7 @@ export default function App() {
         <AddWalkForm onWalkAdded={handleWalkAdded} />
       </dialog>
     </main>
+    <Footer linkedinUrl="https://www.linkedin.com/in/mayuree-reunsati" />
+    </>
   );
 }

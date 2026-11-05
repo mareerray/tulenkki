@@ -1,0 +1,78 @@
+.app-footer {
+    width: 100%;
+    max-width: 900px;
+    margin: auto auto 0;
+    padding: 1.5rem 1.5rem 2rem;
+
+    color: rgba(238, 243, 248, 0.75);
+    text-align: center;
+}
+
+.footer-credit {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.footer-message {
+    margin: 0.4rem 0 1rem;
+    font-size: 0.85rem;
+}
+
+/* Profile links */
+.footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    text-decoration: none;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.footer-links svg {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+}
+
+.footer-links a:hover {
+    background-color: rgba(166, 190, 222, 0.1);
+    color: var(--color-secondary);
+}
+
+.footer-links a:focus-visible {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .app-footer {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-links a {
+        transition: none;
+    }
+}
