@@ -322,12 +322,10 @@ computer. Keep an additional private copy elsewhere.
 
 ## Project status and limitations
 
-- Core CRUD works locally.
+- Core CRUD works locally with Supabase-hosted PostgreSQL.
 - Database export and a basic restore check have been completed.
-- Production deployment is planned.
 - Authentication and authorization are not implemented yet.
-- The API is intended for trusted local development until access
-  protection is added.
+- React and Flask are not publicly deployed yet.
 
 ### Routine configuration
 
