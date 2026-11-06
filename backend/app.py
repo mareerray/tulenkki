@@ -1,5 +1,6 @@
 import os
 import math
+import requests
 from datetime import date
 
 import psycopg
@@ -13,6 +14,69 @@ load_dotenv() # Load environment variables from .env file
 app = Flask(__name__)
 CORS(app) # Enable Cross-Origin Resource Sharing (CORS) for all routes
 
+SUPABASE_URL = os.environ["SUPABASE_URL"].rstrip("/")
+SUPABASE_ANON_KEY = os.environ["SUPABASE_ANON_KEY"]
+ALLOWED_USER_ID = os.environ["ALLOWED_USER_ID"]
+
+
+@app.before_request
+def protect_walk_routes():
+    # Allow browser CORS preflight requests.
+    if request.method == "OPTIONS":
+        return None
+
+    # Protect /walks and everything below /walks/.
+    if not (
+        request.path == "/walks"
+        or request.path.startswith("/walks/")
+    ):
+        return None
+
+    authorization = request.headers.get("Authorization", "")
+    parts = authorization.split()
+
+    if (
+        len(parts) != 2
+        or parts[0].lower() != "bearer"
+    ):
+        return {"error": "Sign-in required"}, 401
+
+    token = parts[1]
+
+    try:
+        response = requests.get(
+            f"{SUPABASE_URL}/auth/v1/user",
+            headers={
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": f"Bearer {token}",
+            },
+            timeout=10,
+        )
+    except requests.RequestException:
+        return {
+            "error": "Authentication service unavailable. Try again."
+        }, 503
+
+    if response.status_code in (401, 403):
+        return {"error": "Invalid or expired access token"}, 401
+
+    if response.status_code != 200:
+        return {
+            "error": "Authentication service unavailable. Try again."
+        }, 503
+
+    try:
+        user = response.json()
+    except ValueError:
+        return {"error": "Invalid authentication response"}, 503
+
+    if not isinstance(user, dict) or not user.get("id"):
+        return {"error": "Invalid authentication response"}, 503
+
+    if user["id"] != ALLOWED_USER_ID:
+        return {"error": "Access denied"}, 403
+
+    return None
 
 @app.get("/health")
 def health():

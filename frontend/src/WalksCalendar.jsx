@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./api";
 import "./WalksCalendar.css";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -39,7 +40,7 @@ export default function WalksCalendar() {
 
         async function loadWalks() {
             try {
-                const response = await fetch("/walks", {
+                const response = await apiFetch("/walks", {
                     signal: controller.signal,
                 });
 

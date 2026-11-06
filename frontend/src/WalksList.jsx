@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GiRunningShoe } from "react-icons/gi";
 import { FaMugHot } from "react-icons/fa";
+import { apiFetch } from "./api";
 import "./WalksList.css";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -53,7 +54,7 @@ export default function WalksList({onEdit}) {
 
         async function loadWalks() {
             try {
-                const response = await fetch("/walks", {
+                const response = await apiFetch("/walks", {
                     signal: controller.signal,
                 });
 
@@ -87,7 +88,7 @@ export default function WalksList({onEdit}) {
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`/walks/${walkId}`, {
+            const response = await apiFetch(`/walks/${walkId}`, {
                 method: "DELETE",
             });
 

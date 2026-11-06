@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./api";
 import WeeklyWalkChart from "./WeeklyWalkChart";
 import "./WalksAnalytics.css";
 
@@ -12,7 +13,7 @@ export default function WalksAnalytics() {
 
         async function loadWalks() {
             try {
-                const response = await fetch("/walks", {
+                const response = await apiFetch("/walks", {
                     signal: controller.signal,
                 });
 

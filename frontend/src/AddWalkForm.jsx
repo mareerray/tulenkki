@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "./api";
 import "./AddWalkForm.css";
 
 export default function AddWalkForm({ onWalkAdded, walk = null }) {
@@ -18,7 +19,7 @@ export default function AddWalkForm({ onWalkAdded, walk = null }) {
         try {
             const url = isEditing ? `/walks/${walk.id}` : "/walks";
 
-            const response = await fetch(url, {
+            const response = await apiFetch(url, {
                 method: isEditing ? "PUT" : "POST",
                 headers: {
                     "Content-Type": "application/json",
