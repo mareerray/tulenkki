@@ -1,0 +1,6 @@
+# keeps your secrets and your virtual environment out of the image. Without it, .env could end up inside the container.
+
+.venv
+.env
+__pycache__
+db_test.py
