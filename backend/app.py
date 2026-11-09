@@ -12,7 +12,16 @@ from psycopg.rows import dict_row
 load_dotenv() # Load environment variables from .env file
 
 app = Flask(__name__)
-CORS(app) # Enable Cross-Origin Resource Sharing (CORS) for all routes
+
+# Only these websites may call the API from a browser
+allowed_origins = [
+    origin.strip() # reads the CORS_ORIGINS environment variable, splits it by commas, and removes whitespace, if it's not set, defaults to http://localhost:5173
+    for origin in os.environ.get(
+        "CORS_ORIGINS", "http://localhost:5173"
+    ).split(",")
+    if origin.strip() # skips empty entries
+]
+CORS(app, origins=allowed_origins)
 
 SUPABASE_URL = os.environ["SUPABASE_URL"].rstrip("/")
 SUPABASE_ANON_KEY = os.environ["SUPABASE_ANON_KEY"]
