@@ -9,13 +9,21 @@
 A personal walking journal for recording walks, following a walking-and-rest
 routine, and reviewing progress over time.
 
+**Live app:** https://tulenkki.vercel.app
+
+Sign-in is required, and the app is set up for a single user. The backend is
+hosted on a free plan, so the first request after a quiet period can take
+about a minute.
+
 I built Tulenkki to practise Python, Flask, PostgreSQL, REST APIs, CRUD
-operations, and Docker-based local development. It is also an app I use
+operations, and Docker-based development and cloud deployment. It is also an app I use
 for my own walking routine.
+
 
 ## Features
 
-- Add, view, edit, and delete walks.
+- Sign in with email and password (Supabase Auth).
+- Protected API: Flask verifies the access token on every request.- Add, view, edit, and delete walks.
 - Record the walk date, duration in whole minutes, optional distance, and notes.
 - Browse walks in a list and calendar.
 - View walking progress through analytics.
@@ -27,20 +35,21 @@ for my own walking routine.
 | Layer | Technologies |
 |-------|--------------|
 | Frontend | React, Vite, CSS |
-| Backend | Python, Flask |
-| Database | PostgreSQL |
-| Database driver | Psycopg 3 |
-| Local database environment | Docker |
+| Backend | Python, Flask, Gunicorn |
+| Database | PostgreSQL (Supabase) |
+| Authentication | Supabase Auth |
+| Containers | Docker |
+| Hosting | Vercel (frontend), Render (backend) |
 | Version control | Git, GitHub |
 
 ## Architecture
 
 ```text
-React frontend
-      ↓ HTTP requests
-Flask REST API
+Browser (React on Vercel)
+      ↓ HTTPS + access token
+Flask API in Docker on Render
       ↓ Parameterized SQL
-PostgreSQL database
+PostgreSQL on Supabase
 ```
 
 During local development:
@@ -279,6 +288,29 @@ Set optional fields explicitly to `null` to clear them.
 - Notes must be text or `null`.
 - PUT and DELETE return 404 when the walk does not exist.
 
+## Deployment
+
+- **Frontend:** Vercel, built from the `frontend` folder.
+- **Backend:** Render web service built from `backend/Dockerfile`, running Gunicorn.
+- **Database and auth:** Supabase.
+
+### Environment variables
+
+Backend (Render):
+
+- `DATABASE_URL`
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `ALLOWED_USER_ID`
+- `CORS_ORIGINS` (comma-separated list of allowed frontend addresses)
+
+Frontend (Vercel):
+
+- `VITE_API_URL` (the backend address, without a trailing slash)
+- Supabase URL and anon key for the client
+
+Do not commit real values. Set them in each host's dashboard.
+
 ## Manual testing
 
 Core CRUD has been tested locally through the API and React interface.
@@ -322,10 +354,12 @@ computer. Keep an additional private copy elsewhere.
 
 ## Project status and limitations
 
-- Core CRUD works locally with Supabase-hosted PostgreSQL.
-- Database export and a basic restore check have been completed.
-- Authentication and authorization are not implemented yet.
-- React and Flask are not publicly deployed yet.
+- Core CRUD works locally and in production.
+- Sign-in and token checks are implemented.
+- The frontend and backend are deployed.
+- The API allows one configured user only.
+- The free backend sleeps when idle, so the first load is slow.
+- Local development against the hosted backend needs `localhost:5173` in `CORS_ORIGINS`.
 
 ### Routine configuration
 
@@ -354,7 +388,23 @@ This project has helped me practise:
 - Debugging API requests with curl and browser developer tools.
 - Testing the app on a phone through the local network.
 - Exporting a database and testing a restore.
+- Writing a Dockerfile and running Flask with Gunicorn.
+- Using environment variables for secrets, and finding the quotes bug in Docker env files.
+- Configuring CORS and debugging blocked requests.
+- Deploying a full-stack app across Vercel, Render and Supabase.
 
 ## Screenshots
 
-Screenshots will be added.
+## Screenshots
+
+| Sign in | Calendar |
+|---------|------------|
+| <img src="./docs/screenshots/tulenkki.vercel.app_signin.png" alt="Tulenkki sign-in page" width="400"/> | <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Calendar view of walks" width="400" /> |
+
+| Add walk | Walks list |
+|----------|----------|
+| <img src="./docs/screenshots/tulenkki.vercel.app_addwalk.png" alt="Form for adding a walk" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_list.png" alt="List of recorded walks" width="400"/> |
+
+| Analytics |
+|-----------|
+| <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
