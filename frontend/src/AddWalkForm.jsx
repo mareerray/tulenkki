@@ -78,7 +78,7 @@ export default function AddWalkForm({ onWalkAdded, walk = null }) {
                 Distance (km)
                 <input
                     type="number"
-                    step="0.1"
+                    step="0.001"
                     min="0"
                     value={distanceKm}
                     onChange={(event) => setDistanceKm(event.target.value)}
