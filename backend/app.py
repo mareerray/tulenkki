@@ -305,7 +305,7 @@ def delete_walk(walk_id):
                 WHERE id = %s AND user_id = %s
                 RETURNING id;
                 """,
-                (walk_id,),
+                (walk_id, g.user_id),
             )
             deleted = cur.fetchone()
 
