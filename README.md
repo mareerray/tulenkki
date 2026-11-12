@@ -400,14 +400,14 @@ This project has helped me practise:
 
 ## Screenshots
 
-| Sign in | Calendar |
+| Sign in | Welcome |
 |---------|------------|
-| <img src="./docs/screenshots/tulenkki.vercel.app_signin.png" alt="Tulenkki sign-in page" width="400"/> | <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Calendar view of walks" width="400" /> |
+| <img src="./docs/screenshots/tulenkki.vercel.app_signin.png" alt="Tulenkki sign-in page" width="400"/> | <img src="./docs/screenshots/tulenkki.vercel.app_welcome.png" alt="Calendar view of walks" width="400" /> |
 
 | Add walk | Walks list |
 |----------|----------|
 | <img src="./docs/screenshots/tulenkki.vercel.app_addwalk.png" alt="Form for adding a walk" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_list.png" alt="List of recorded walks" width="400"/> |
 
-| Analytics |
-|-----------|
-| <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
+| Calendar | Analytics |
+|-----------|----------|
+| <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Form for adding a walk" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
