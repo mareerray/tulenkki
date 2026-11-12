@@ -5,7 +5,7 @@ from datetime import date
 
 import psycopg
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g
 from flask_cors import CORS
 from psycopg.rows import dict_row
 
@@ -85,6 +85,7 @@ def protect_walk_routes():
     if user["id"] != ALLOWED_USER_ID:
         return {"error": "Access denied"}, 403
 
+    g.user_id = user["id"]
     return None
 
 @app.get("/health")
@@ -102,8 +103,11 @@ def get_walks():
             cur.execute("""
                 SELECT id, walk_date, minutes, distance_km, notes
                 FROM walks
+                WHERE user_id = %s
                 ORDER BY walk_date DESC, id DESC
-            """)
+                """, 
+                (g.user_id,),
+            )
             rows = cur.fetchall() 
 
     walks = [ # prepares the data for JSON serialization by converting datetime and decimal types to strings and floats
@@ -216,11 +220,11 @@ def create_walk():
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO walks (walk_date, minutes, distance_km, notes)
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO walks (user_id, walk_date, minutes, distance_km, notes)
+                VALUES (%s, %s, %s, %s, %s)
                 RETURNING id, walk_date, minutes, distance_km, notes
                 """,
-                (walk_date, minutes, distance_km, notes),
+                (g.user_id, walk_date, minutes, distance_km, notes),
             )
             row = cur.fetchone()
 
@@ -263,10 +267,10 @@ def update_walk(walk_id):
                 """
                 UPDATE walks
                 SET walk_date = %s, minutes = %s, distance_km = %s, notes = %s
-                WHERE id = %s
+                WHERE id = %s AND user_id = %s
                 RETURNING id, walk_date, minutes, distance_km, notes;
                 """,
-                (walk_date, minutes, distance_km, notes, walk_id),
+                (walk_date, minutes, distance_km, notes, walk_id, g.user_id),
             )
             row = cur.fetchone()
 
@@ -298,7 +302,7 @@ def delete_walk(walk_id):
             cur.execute(
                 """
                 DELETE FROM walks
-                WHERE id = %s
+                WHERE id = %s AND user_id = %s
                 RETURNING id;
                 """,
                 (walk_id,),
