@@ -25,8 +25,6 @@ CORS(app, origins=allowed_origins)
 
 SUPABASE_URL = os.environ["SUPABASE_URL"].rstrip("/")
 SUPABASE_ANON_KEY = os.environ["SUPABASE_ANON_KEY"]
-ALLOWED_USER_ID = os.environ["ALLOWED_USER_ID"]
-
 
 @app.before_request
 def protect_walk_routes():
@@ -81,9 +79,6 @@ def protect_walk_routes():
 
     if not isinstance(user, dict) or not user.get("id"):
         return {"error": "Invalid authentication response"}, 503
-
-    if user["id"] != ALLOWED_USER_ID:
-        return {"error": "Access denied"}, 403
 
     g.user_id = user["id"]
     return None
