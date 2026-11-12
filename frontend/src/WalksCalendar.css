@@ -172,6 +172,21 @@
     background-color: var(--color-primary);
 }
 
+.calendar-icon-recorded {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--color-secondary); /* pink for recorded */
+    /* width: 14px;
+    height: 14px; */
+    /* border-radius: 2px;
+    background-color: rgba(222, 170, 166, 0.1); */
+}
+
+.calendar-icon-upcoming {
+    color: #9e9e9e; /* gray for upcoming */
+}
+
 /* Mobile */
 @media (max-width: 480px) {
     .walk-calendar {
@@ -184,5 +199,120 @@
 
     .calendar-weekday {
         font-size: 0.7rem;
+    }
+}
+
+/* Date cells */
+.calendar-day {
+    min-width: 0;
+    min-height: 76px;
+    padding: 10px 6px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid transparent;
+    border-radius: 14px;
+    background: transparent;
+    color: #f1f4f8;
+
+    font: inherit;
+    cursor: pointer;
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease;
+}
+
+.calendar-day:hover {
+    background: rgba(167, 192, 222, 0.1);
+}
+
+.calendar-day:focus-visible {
+    outline: 2px solid #a7c0de;
+    outline-offset: 2px;
+}
+
+/* Today's date: outline, separate from the selected date */
+.calendar-day[aria-current="date"] {
+    border-color: #a7c0de;
+}
+
+/* Selected date */
+.calendar-day[aria-pressed="true"] {
+    background: #a7c0de;
+    color: #071024;
+    font-weight: 700;
+}
+
+/* Shoe size */
+.calendar-day .calendar-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* Recorded walks: pink */
+.calendar-icon.calendar-icon-recorded {
+    color: #e4b0ad;
+}
+
+/* Scheduled days without a record: muted blue-gray */
+.calendar-icon.calendar-icon-upcoming {
+    color: #a0adbd;
+}
+
+/* Stronger contrast against the selected blue background */
+.calendar-day[aria-pressed="true"] .calendar-icon-recorded {
+    color: #713c44;
+}
+
+.calendar-day[aria-pressed="true"] .calendar-icon-upcoming {
+    color: #35465d;
+}
+
+/* Legend */
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+
+    margin: 24px 0;
+    font-size: 0.9rem;
+    color: #e0e6ee;
+}
+
+.calendar-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calendar-legend .calendar-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Smaller screens */
+@media (max-width: 480px) {
+    .calendar-day {
+        min-height: 60px;
+        padding: 8px 2px;
+        gap: 6px;
+        border-radius: 10px;
+    }
+
+    .calendar-day .calendar-icon {
+        width: 19px;
+        height: 19px;
+    }
+
+    .calendar-legend {
+        gap: 10px 16px;
+        font-size: 0.8rem;
     }
 }

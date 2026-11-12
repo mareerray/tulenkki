@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supabase } from "./supabaseClient";
 
+const DEMO_EMAIL = import.meta.env.VITE_DEMO_EMAIL;
+const DEMO_PASSWORD = import.meta.env.VITE_DEMO_PASSWORD;
 const REMEMBERED_EMAIL_KEY = "tulenkki-email";
 
 export default function Login() {
@@ -32,6 +34,22 @@ export default function Login() {
         if (error) {
             setError(error.message);
             return;
+        }
+    }
+
+    async function handleDemoSignIn() {
+        setError("");
+        setLoading(true);
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email: DEMO_EMAIL,
+            password: DEMO_PASSWORD,
+        });
+
+        setLoading(false);
+
+        if (error) {
+            setError(error.message);
         }
     }
 
@@ -69,6 +87,15 @@ export default function Login() {
                     {loading ? "Signing in..." : "Sign in"}
                 </button>
             </form>
+
+            <button
+                className="login-demo-button"
+                type="button"
+                onClick={handleDemoSignIn}
+                disabled={loading}
+            >
+                Try demo
+            </button>
 
             {error && (
                 <p className="login-error" role="alert">

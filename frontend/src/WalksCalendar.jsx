@@ -1,6 +1,27 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "./api";
+import { GiRunningShoe } from "react-icons/gi";
 import "./WalksCalendar.css";
+
+const ROUTINE_START = Date.UTC(2026, 9, 16);
+const CYCLE_LENGTH = 8;
+const WALK_DAYS = 6;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function isWalkDay(dateKey) {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    const dayNumber = Date.UTC(year, month - 1, day) / DAY_MS;
+    const startDay = ROUTINE_START / DAY_MS;
+
+    // No scheduled walking days before the routine starts.
+    if (dayNumber < startDay) {
+        return false;
+    }
+
+    const cycleDay = (dayNumber - startDay) % CYCLE_LENGTH;
+
+    return cycleDay < WALK_DAYS;
+}
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -95,7 +116,7 @@ export default function WalksCalendar() {
     if (error) return <p role="alert">{error}</p>;
 
     return (
-        <div className="walk-calendar">
+        <div className="walk-calendar page-transition">
             <div className="calendar-navigation">
                 <button
                     type="button"
@@ -148,19 +169,41 @@ export default function WalksCalendar() {
                         >
                             <span>{day}</span>
 
-                            {count > 0 && (
-                                <span className="calendar-dot" aria-hidden="true" />
-                            )}
-                        </button>
+                            {isWalkDay(dateKey) && (
+                                count > 0 ? (
+                                    <GiRunningShoe
+                                        className="calendar-icon calendar-icon-recorded"
+                                        aria-label="Walk recorded"
+                                        role="img"
+                                    />
+                                ) : (
+                                    <GiRunningShoe
+                                        className="calendar-icon calendar-icon-upcoming"
+                                        aria-label="Upcoming walk day"
+                                        role="img"
+                                    />
+                                )
+                            )}                        </button>
                     );
                 })}
             </div>
-
             <p className="calendar-legend">
-                <span className="calendar-dot" aria-hidden="true" />
-                Walk recorded
-            </p>
+                <span className="calendar-legend-item">
+                    <GiRunningShoe
+                        className="calendar-icon calendar-icon-recorded"
+                        aria-hidden="true"
+                    />
+                    Walk recorded
+                </span>
 
+                <span className="calendar-legend-item">
+                    <GiRunningShoe
+                        className="calendar-icon calendar-icon-upcoming"
+                        aria-hidden="true"
+                    />
+                    Scheduled walking day
+                </span>
+            </p>
             <section
                 className="calendar-details"
                 aria-labelledby="selected-date-heading"

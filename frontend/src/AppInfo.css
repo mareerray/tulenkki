@@ -1,0 +1,173 @@
+.info-dialog,
+.about-page {
+    box-sizing: border-box;
+    background: #2b3544;
+    color: #f1f4f8;
+    line-height: 1.65;
+}
+
+.info-dialog {
+    width: min(520px, calc(100% - 32px));
+    max-height: 90dvh;
+    overflow-y: auto;
+
+    margin: auto;
+    padding: 28px;
+    border: 1px solid #59677b;
+    border-radius: 24px;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.4);
+}
+
+.info-dialog::backdrop {
+    background: rgba(3, 8, 25, 0.8);
+}
+
+.info-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.info-dialog h2,
+.about-page h2 {
+    margin-top: 0;
+    color: #e4b0ad;
+}
+
+.info-dialog h3,
+.about-page h3 {
+    color: #a7c0de;
+}
+
+.info-close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+
+    background: transparent;
+    color: #f1f4f8;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.info-close:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.info-steps {
+    padding-left: 24px;
+    margin: 24px 0;
+}
+
+.info-steps li + li,
+.about-features li + li {
+    margin-top: 12px;
+}
+
+.info-demo-note {
+    margin: 24px 0;
+    padding: 16px 18px;
+    border-left: 3px solid #e4b0ad;
+    border-radius: 0 12px 12px 0;
+    background: rgba(228, 176, 173, 0.08);
+}
+
+.info-demo-note h3 {
+    margin: 0 0 8px;
+}
+
+.info-demo-note p {
+    margin: 0;
+}
+
+.info-demo-note p + p {
+    margin-top: 12px;
+}
+
+.info-hint {
+    color: #c0cbda;
+    font-size: 0.9rem;
+}
+
+.info-primary-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 14px;
+
+    background: #e4b0ad;
+    color: #071024;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.info-primary-button:hover {
+    background: #efc2bf;
+}
+
+.about-page {
+    max-width: 760px;
+    margin: 24px auto;
+    padding: 32px;
+    border-radius: 24px;
+}
+
+.about-intro {
+    color: #a7c0de;
+    font-size: 1.15rem;
+}
+
+.about-page section + section {
+    margin-top: 28px;
+}
+
+.about-features {
+    padding-left: 22px;
+}
+
+.info-back-button {
+    margin-bottom: 24px;
+    padding: 8px 0;
+    border: 0;
+    background: transparent;
+    color: #a7c0de;
+    font: inherit;
+    cursor: pointer;
+}
+
+.info-back-button:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.info-close:focus-visible,
+.info-primary-button:focus-visible,
+.info-back-button:focus-visible {
+    outline: 2px solid #a7c0de;
+    outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+    .info-dialog {
+        padding: 22px;
+        border-radius: 20px;
+    }
+
+    .about-page {
+        padding: 22px;
+        border-radius: 20px;
+    }
+}
+
+.info-dialog {
+    zoom: 0.85;
+}

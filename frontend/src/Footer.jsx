@@ -1,7 +1,7 @@
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import "./Footer.css";
 
-export default function Footer({ linkedinUrl }) {
+export default function Footer({ linkedinUrl, onAbout }) {
     const year = new Date().getFullYear();
 
     return (
@@ -14,7 +14,14 @@ export default function Footer({ linkedinUrl }) {
                 Made with care, one step at a time.
             </p>
 
-            <nav className="footer-links" aria-label="Creator profiles">
+            <nav className="footer-links" aria-label="Footer navigation">
+                <button
+                    className="footer-about-button"
+                    type="button"
+                    onClick={onAbout}
+                >
+                    About Tulenkki
+                </button>
                 <a
                     href="https://github.com/mareerray"
                     target="_blank"

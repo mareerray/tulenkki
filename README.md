@@ -29,6 +29,11 @@ for my own walking routine.
 - View walking progress through analytics.
 - Follow an eight-day routine: six walking days and two rest days.
 - Use a responsive interface on desktop and mobile.
+- Try the app with a demo account.
+- Show a welcome introduction after signing in.
+- Display the average minutes per walk as a whole number.
+- Use subtle page-transition animations between navigation tabs.
+- Keep the page layout stable while switching between views.
 
 ## Tech stack
 
@@ -392,8 +397,6 @@ This project has helped me practise:
 - Using environment variables for secrets, and finding the quotes bug in Docker env files.
 - Configuring CORS and debugging blocked requests.
 - Deploying a full-stack app across Vercel, Render and Supabase.
-
-## Screenshots
 
 ## Screenshots
 

@@ -136,7 +136,7 @@ export default function WalksList({onEdit}) {
     }
 
     return (
-        <div className="cycle-view">
+        <div className="cycle-view page-transition">
             <nav className="cycle-navigation" aria-label="Walk cycles">
                 <button
                     type="button"

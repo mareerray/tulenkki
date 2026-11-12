@@ -1,13 +1,14 @@
 import { useRef, useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import { FiLogOut } from "react-icons/fi";
-import "./App.css";
+import { WelcomeDialog, AboutPage } from "./AppInfo";
 import Login from "./Login";
 import AddWalkForm from "./AddWalkForm";
 import WalksList from "./WalksList";
 import WalksCalendar from "./WalksCalendar";
 import WalksAnalytics from "./WalksAnalytics";
 import Footer from "./Footer";
+import "./App.css";
 
 function WalkingLogo() {
   return (
@@ -78,9 +79,29 @@ export default function App() {
   }
 
   async function handleSignOut() {
-    await supabase.auth.signOut();
-    setSession(null);
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+          setNotice("Could not sign out. Please try again.");
+          return;
+      }
+
+      if (session?.user?.id) {
+          sessionStorage.removeItem(
+              `tulenkki-welcome-${session.user.id}`
+          );
+      }
+
+      setSession(null);
   }
+
+  const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
+
+  const isDemo = Boolean(
+    session?.user?.email &&
+    demoEmail &&
+    session.user.email.toLowerCase() === demoEmail.toLowerCase()
+  );
 
   if (checkingSession) {
     return <main><p>Loading...</p></main>;
@@ -98,6 +119,11 @@ export default function App() {
   return (
     <>
       <main>
+        <WelcomeDialog
+          key={session.user.id}
+          userId={session.user.id}
+          isDemo={isDemo}
+        />
         <header className="app-header">
           <div className="app-header-inner">
             <WalkingLogo />
@@ -116,64 +142,68 @@ export default function App() {
         <p className="page-notice" role="status">
           {notice}
         </p>
+        {view === "about" ? (
+          <AboutPage onBack={() => setView("list")} />
+        ) : (
+          <section aria-labelledby="walks-heading">
+            <h2 id="walks-heading">My walks</h2>
 
-        <section aria-labelledby="walks-heading">
-          <h2 id="walks-heading">My walks</h2>
+            {/* View switcher */}
+            <div className="walk-view-switch" role="group" aria-label="Walk view">
+              <button
+                type="button"
+                aria-pressed={view === "list"}
+                onClick={() => setView("list")}
+              >
+                List
+              </button>
 
-          {/* View switcher */}
-          <div className="walk-view-switch" role="group" aria-label="Walk view">
-            <button
-              type="button"
-              aria-pressed={view === "list"}
-              onClick={() => setView("list")}
-            >
-              List
-            </button>
+              <button
+                type="button"
+                aria-pressed={view === "calendar"}
+                onClick={() => setView("calendar")}
+              >
+                Calendar
+              </button>
 
-            <button
-              type="button"
-              aria-pressed={view === "calendar"}
-              onClick={() => setView("calendar")}
-            >
-              Calendar
-            </button>
+              <button
+                type="button"
+                aria-pressed={view === "analytics"}
+                onClick={() => setView("analytics")}
+              >
+                Analytics
+              </button>
+            </div>
 
-            <button
-              type="button"
-              aria-pressed={view === "analytics"}
-              onClick={() => setView("analytics")}
-            >
-              Analytics
-            </button>
-          </div>
+            {/* View content */}
+            {/* && means “render this component only when its condition is true.” */}
+            {view === "list" && (
+              <WalksList key={`list-${refreshKey}`}
+                onEdit={handleEdit} />
+            )}
 
-          {/* View content */}
-          {/* && means “render this component only when its condition is true.” */}
-          {view === "list" && (
-            <WalksList key={`list-${refreshKey}`}
-              onEdit={handleEdit} />
-          )}
+            {view === "calendar" && (
+              <WalksCalendar key={`calendar-${refreshKey}`} />
+            )}
 
-          {view === "calendar" && (
-            <WalksCalendar key={`calendar-${refreshKey}`} />
-          )}
+            {view === "analytics" && (
+              <WalksAnalytics key={`analytics-${refreshKey}`} />
+            )}
+          </section>
+        )}
 
-          {view === "analytics" && (
-            <WalksAnalytics key={`analytics-${refreshKey}`} />
-          )}
-        </section>
-
-        {/* Floating Add Walk Button */}
-        <button
-          className="add-walk-fab"
-          type="button"
-          onClick={openAddWalk}
-          aria-label="Add a walk"
-          aria-haspopup="dialog"
-          aria-controls="add-walk-dialog"
-        >
-          <span aria-hidden="true">+</span>
-        </button>
+        {view !== "about" && (
+          <button
+            className="add-walk-fab"
+            type="button"
+            onClick={openAddWalk}
+            aria-label="Add a walk"
+            aria-haspopup="dialog"
+            aria-controls="add-walk-dialog"
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+        )}
 
         {/* Add Walk Dialog */}
         <dialog
@@ -203,7 +233,13 @@ export default function App() {
             onWalkAdded={handleWalkAdded} />
         </dialog>
       </main>
-      <Footer linkedinUrl="https://www.linkedin.com/in/mayuree-reunsati" />
+      <Footer 
+        linkedinUrl="https://www.linkedin.com/in/mayuree-reunsati" 
+        onAbout={() => {
+          setView("about");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
     </>
   );
 }

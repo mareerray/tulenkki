@@ -64,6 +64,31 @@
     outline-offset: 3px;
 }
 
+.footer-about-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-primary);
+
+    font: 0.85rem;
+    cursor: pointer;
+}
+
+.footer-about-button:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.footer-about-button:focus-visible {
+    outline: 2px solid #a7c0de;
+    outline-offset: 5px;
+    border-radius: 4px;
+}
+
 @media (max-width: 480px) {
     .app-footer {
         padding-right: 1rem;

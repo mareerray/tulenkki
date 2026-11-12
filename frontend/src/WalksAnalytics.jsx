@@ -72,7 +72,8 @@ export default function WalksAnalytics() {
         0
     );
 
-    const averageMinutes = totalMinutes / totalWalks;
+    const averageMinutes =
+    totalWalks > 0 ? Math.round(totalMinutes / totalWalks) : 0;
 
     const hours = Math.floor(totalMinutes / 60);
     const remainingMinutes = totalMinutes % 60;
@@ -83,7 +84,7 @@ export default function WalksAnalytics() {
             : `${remainingMinutes} min`;
 
     return (
-        <div className="walk-analytics">
+        <div className="walk-analytics page-transition">
             <div className="analytics-heading">
                 <h3>Your walking progress</h3>
                 <p>All recorded walks · All time</p>
@@ -106,7 +107,7 @@ export default function WalksAnalytics() {
                     <dt>Recorded distance</dt>
                     <dd>
                         {walksWithDistance.length > 0
-                            ? `${totalDistance.toFixed(1)} km`
+                            ? `${totalDistance.toFixed(3)} km`
                             : "Not recorded"}
                     </dd>
                     <p>
@@ -117,7 +118,7 @@ export default function WalksAnalytics() {
 
                 <div className="analytics-card">
                     <dt>Average duration</dt>
-                    <dd>{averageMinutes.toFixed(1)} min</dd>
+                    <dd>{averageMinutes} min</dd>
                     <p>Average time per walk.</p>
                 </div>
             </dl>
