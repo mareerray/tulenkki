@@ -411,3 +411,7 @@ This project has helped me practise:
 | Calendar | Analytics |
 |-----------|----------|
 | <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Form for adding a walk" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
+
+## Author
+
+Created by Mayuree Reunsati.
