@@ -6,34 +6,33 @@
   width="240"
 />
 
-A personal walking journal for recording walks, following a walking-and-rest
-routine, and reviewing progress over time.
+Tulenkki is a full-stack walking journal for recording walks, following a
+walking-and-rest routine, and reviewing progress over time.
+
+To explore the app, click **Try demo** on the sign-in page. No registration or credentials needed.
+
+The backend runs on a free plan, so the first request after a quiet
+period may take about a minute.
 
 **Live app:** https://tulenkki.vercel.app
 
-Sign-in is required, and the app is set up for a single user. The backend is
-hosted on a free plan, so the first request after a quiet period can take
-about a minute.
+Tulenkki is designed for one configured user. Authentication is implemented with
+Supabase Auth, and the Flask API verifies access tokens and restricts data access
+to the allowed user.
 
 I built Tulenkki to practise Python, Flask, PostgreSQL, REST APIs, CRUD
-operations, and Docker-based development and cloud deployment. It is also an app I use
-for my own walking routine.
+operations, and Docker-based development and cloud deployment. It is also an app I use for my own walking routine.
 
+## Key features
 
-## Features
-
-- Sign in with email and password (Supabase Auth).
-- Protected API: Flask verifies the access token on every request.- Add, view, edit, and delete walks.
-- Record the walk date, duration in whole minutes, optional distance, and notes.
-- Browse walks in a list and calendar.
-- View walking progress through analytics.
-- Follow an eight-day routine: six walking days and two rest days.
-- Use a responsive interface on desktop and mobile.
-- Try the app with a demo account.
-- Show a welcome introduction after signing in.
-- Display the average minutes per walk as a whole number.
-- Use subtle page-transition animations between navigation tabs.
-- Keep the page layout stable while switching between views.
+- Email and password authentication with Supabase Auth
+- One-click demo access without entering credentials
+- Protected Flask REST API with token verification
+- Full CRUD for walking records
+- Calendar, list, and analytics views
+- Eight-day walking-and-rest routine
+- Responsive React interface for desktop and mobile
+- Docker-based local development and cloud deployment
 
 ## Tech stack
 
@@ -380,29 +379,20 @@ The database includes a `routine_settings` table, but the cycle view
 does not read it yet. Connecting the cycle view to database settings
 is a planned improvement.
 
-## Learning notes
+## What I learned
 
-This project has helped me practise:
-
-- Connecting Flask to PostgreSQL using Psycopg.
-- Designing tables with identity columns and database constraints.
-- Writing parameterized SQL queries.
-- Sharing validation logic between Create and Update endpoints.
-- Connecting React forms to REST endpoints.
-- Handling errors and refreshing the interface after changes.
-- Debugging API requests with curl and browser developer tools.
-- Testing the app on a phone through the local network.
-- Exporting a database and testing a restore.
-- Writing a Dockerfile and running Flask with Gunicorn.
-- Using environment variables for secrets, and finding the quotes bug in Docker env files.
-- Configuring CORS and debugging blocked requests.
-- Deploying a full-stack app across Vercel, Render and Supabase.
+- Building a Flask REST API with PostgreSQL and parameterized SQL
+- Implementing authentication and protected endpoints
+- Designing relational database tables and constraints
+- Using Docker for local development and deployment
+- Deploying a React frontend, Flask backend, and Supabase database
+- Debugging CORS, environment variables, API requests, and deployment issues
 
 ## Screenshots
 
 | Sign in | Welcome |
 |---------|------------|
-| <img src="./docs/screenshots/tulenkki.vercel.app_signin.png" alt="Tulenkki sign-in page" width="400"/> | <img src="./docs/screenshots/tulenkki.vercel.app_welcome.png" alt="Calendar view of walks" width="400" /> |
+| <img src="./docs/screenshots/tulenkki.vercel.app_signin.png" alt="Tulenkki sign-in page" width="400"/> | <img src="./docs/screenshots/tulenkki.vercel.app_welcome.png" alt="Tulenkki welcome screen" width="400" /> |
 
 | Add walk | Walks list |
 |----------|----------|
@@ -410,7 +400,7 @@ This project has helped me practise:
 
 | Calendar | Analytics |
 |-----------|----------|
-| <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Form for adding a walk" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
+| <img src="./docs/screenshots/tulenkki.vercel.app_calendar.png" alt="Calendar view of recorded walks" width="400" /> | <img src="./docs/screenshots/tulenkki.vercel.app_analytics.png" alt="Walking progress analytics" width="400" /> |
 
 ## Author
 
