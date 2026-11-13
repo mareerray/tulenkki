@@ -82,7 +82,7 @@ These instructions use macOS/Linux shell commands.
 ### 1. Clone the repository
 
 ```bash
-git clone [https://github.com/mareerray/tulenkki.git](https://github.com/mareerray/tulenkki.git)
+git clone https://github.com/mareerray/tulenkki.git
 cd tulenkki
 ```
 
@@ -257,7 +257,7 @@ POST requires `walk_date` and `minutes`.
 {
   "walk_date": "2026-11-05",
   "minutes": 25,
-  "distance_km": 2.1,
+  "distance_km": 2.125,
   "notes": "Example walk"
 }
 ```
@@ -414,4 +414,4 @@ This project has helped me practise:
 
 ## Author
 
-Created by Mayuree Reunsati.
+Created by [Mayuree Reunsati](https://github.com/mareerray/).
