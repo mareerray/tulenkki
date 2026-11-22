@@ -85,8 +85,8 @@
 
 /* Individual dates */
 .calendar-grid .calendar-day {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1.25rem 19px;
     align-items: center;
     justify-content: center;
     gap: 0.3rem;
