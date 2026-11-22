@@ -1,7 +1,9 @@
 import os
 import math
 import requests
+import secrets
 from datetime import date
+from uuid import UUID
 
 import psycopg
 from dotenv import load_dotenv
@@ -308,3 +310,66 @@ def delete_walk(walk_id):
         return jsonify({"error": "Walk not found"}), 404
 
     return jsonify({"message": "Walk deleted"}), 200
+
+
+# --------------- SabaiMai read-only integration ---------------
+
+@app.get("/integrations/sabaimai/walks")
+def get_sabaimai_walks():
+    expected_key = os.environ.get("SABAIMAI_INTEGRATION_KEY", "")
+    owner_id = os.environ.get("SABAIMAI_WALKS_OWNER_ID", "")
+
+    if not expected_key or not owner_id:
+        return {"error": "Walking integration is unavailable"}, 503
+
+    try:
+        owner_uuid = UUID(owner_id)
+    except ValueError:
+        return {"error": "Walking integration is unavailable"}, 503
+
+    provided_key = request.headers.get("X-API-Key", "")
+
+    if not provided_key or not secrets.compare_digest(
+        provided_key.encode("utf-8"),
+        expected_key.encode("utf-8"),
+    ):
+        return {"error": "Invalid integration key"}, 401
+
+    try:
+        with psycopg.connect(
+            os.environ["DATABASE_URL"],
+            row_factory=dict_row,
+        ) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id, walk_date, minutes, distance_km
+                    FROM walks
+                    WHERE user_id = %s
+                    ORDER BY walk_date DESC, id DESC
+                    """,
+                    (owner_uuid,),
+                )
+                rows = cur.fetchall()
+
+    except psycopg.Error:
+        app.logger.exception("Walking integration database request failed")
+        return {"error": "Walking data is temporarily unavailable"}, 503
+
+    walks = [
+        {
+            "id": row["id"],
+            "walk_date": row["walk_date"].isoformat(),
+            "minutes": row["minutes"],
+            "distance_km": (
+                float(row["distance_km"])
+                if row["distance_km"] is not None
+                else None
+            ),
+        }
+        for row in rows
+    ]
+
+    response = jsonify({"walks": walks})
+    response.headers["Cache-Control"] = "no-store"
+    return response
