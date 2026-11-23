@@ -317,14 +317,8 @@ def delete_walk(walk_id):
 @app.get("/integrations/sabaimai/walks")
 def get_sabaimai_walks():
     expected_key = os.environ.get("SABAIMAI_INTEGRATION_KEY", "")
-    owner_id = os.environ.get("SABAIMAI_WALKS_OWNER_ID", "")
 
-    if not expected_key or not owner_id:
-        return {"error": "Walking integration is unavailable"}, 503
-
-    try:
-        owner_uuid = UUID(owner_id)
-    except ValueError:
+    if not expected_key:
         return {"error": "Walking integration is unavailable"}, 503
 
     provided_key = request.headers.get("X-API-Key", "")
@@ -334,6 +328,36 @@ def get_sabaimai_walks():
         expected_key.encode("utf-8"),
     ):
         return {"error": "Invalid integration key"}, 401
+
+    account = request.args.get("account", "owner")
+
+    account_env_names = {
+        "owner": "SABAIMAI_WALKS_OWNER_ID",
+        "demo": "SABAIMAI_WALKS_DEMO_ID",
+    }
+
+    env_name = account_env_names.get(account)
+
+    if env_name is None:
+        return {"error": "Invalid walking account"}, 400
+
+    selected_id = os.environ.get(env_name, "")
+
+    try:
+        selected_uuid = UUID(selected_id)
+    except ValueError:
+        return {"error": "Walking integration is unavailable"}, 503
+
+    if account == "demo":
+        personal_id = os.environ.get("SABAIMAI_WALKS_OWNER_ID", "")
+
+        try:
+            personal_uuid = UUID(personal_id)
+        except ValueError:
+            return {"error": "Walking integration is unavailable"}, 503
+
+        if selected_uuid == personal_uuid:
+            return {"error": "Walking integration accounts must be separate"}, 503
 
     try:
         with psycopg.connect(
@@ -348,7 +372,7 @@ def get_sabaimai_walks():
                     WHERE user_id = %s
                     ORDER BY walk_date DESC, id DESC
                     """,
-                    (owner_uuid,),
+                    (selected_uuid,),
                 )
                 rows = cur.fetchall()
 
